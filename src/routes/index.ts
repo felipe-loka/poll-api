@@ -1,9 +1,8 @@
 import { Router } from 'express'
-import poolRouter from './poolRoutes'
-
+import pollRouter from './pollRoutes'
 const router = Router()
 
-router.use('/pool', poolRouter)
+router.use('/poll', pollRouter)
 
 router.use('/healthy', (req, res) => {
   res.send('OK!')
