@@ -1,32 +1,32 @@
 import connection from '../config/database/database'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 
-dayjs.extend(utc)
+interface Choice {
+  choiceId: string
+  choice: string
+}
 
 export const createChoices = async (uuid: string, choices: string[]): Promise<void> => {
   const valuesToInsert = choices.map((choice: string) => [uuid, choice])
   const conn = await connection
-  try {
-    conn.query(
-      'INSERT INTO `choice` (poll_id, choice) VALUES ?',
-      [valuesToInsert]
-    )
-  } catch {
-    console.log('Error')
-  }
+  conn.query(
+    'INSERT INTO `choice` (poll_id, choice) VALUES ?',
+    [valuesToInsert]
+  )
 }
 
-export const getChoices = async (uuid: string): Promise<string[] | null> => {
+export const getChoices = async (uuid: string): Promise<Choice | null> => {
   const conn = await connection
   const [rows] = await conn.query(
-    'SELECT choice FROM `choice` WHERE poll_id = ?',
+    'SELECT choice_id, choice FROM `choice` WHERE poll_id = ?',
     [uuid]
   )
-  const result = JSON.parse(JSON.stringify(rows))
+  const result: Choice[] = JSON.parse(JSON.stringify(rows))
   if (result.length === 0) {
     return null
   }
-  const choices = result.map((item: any) => item.choice)
+  const choices: any = {}
+  result.forEach((item: any) => {
+    choices[item.choice_id] = item.choice
+  })
   return choices
 }
