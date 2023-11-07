@@ -1,4 +1,4 @@
-import mysql from 'mysql2'
+import mysql from 'mysql2/promise'
 import { DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_PORT } from '../environments'
 
 const conn = mysql.createConnection({

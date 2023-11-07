@@ -13,6 +13,7 @@ const validate =
           err = err.issues.map((e) => ({ path: e.path[0], message: e.message }))
         }
         return res.status(400).json({
+          message: 'Input validation failed',
           status: 'failed',
           error: err
         })
