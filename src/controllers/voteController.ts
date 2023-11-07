@@ -1,0 +1,44 @@
+import { type Request, type Response } from 'express'
+// import { createVote } from '../repositories/voteRepository'
+import { getChoices } from '../repositories/choiceRepository'
+import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
+import { type INewVote } from '../validators/voteValidators'
+import { getPollQuestion } from '../repositories/pollRepository'
+import { createVote } from '../repositories/voteRepository'
+
+function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): boolean {
+  const choicesInPollAsNumber = choicesInPoll.map((choice: string) => Number(choice))
+  return choicesInput.every((element) => choicesInPollAsNumber.includes(element))
+}
+
+export const create = async (req: Request, res: Response): Promise<void> => {
+  const body: INewVote = req.body
+
+  const poll = await getPollQuestion(body.pollId)
+  if (poll === null) {
+    res.status(404)
+    res.send(buildErrorResponse(
+      'You can not vote in a poll that does not exist. Verify if the given pool id is correct.'
+    ))
+    return
+  }
+
+  const availableChoices = await getChoices(body.pollId)
+  if (availableChoices !== null) {
+    const choiceIds = Object.keys(availableChoices)
+    const allElementsPresent: boolean = areAllChoicesPresent(choiceIds, body.choiceId)
+    if (!allElementsPresent) {
+      res.status(404)
+      res.send(buildErrorResponse(
+        'The choices IDs provided are not present in the poll.'
+      ))
+      return
+    }
+  }
+
+  await createVote(body.pollId, body.choiceId)
+  res.send(buildSuccessResponse(
+    'Vote was created!',
+    {}
+  ))
+}
