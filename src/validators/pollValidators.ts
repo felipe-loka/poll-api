@@ -14,3 +14,5 @@ export const NewPoll = z.object({
     required_error: "The field 'choice' is required and represents the list of choices that the user can vote."
   })).min(2, 'There must be at least two choices in the poll!')
 })
+
+export type INewPoll = z.infer<typeof NewPoll>
