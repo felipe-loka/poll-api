@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { createPoll, getPollQuestion } from '../repositories/pollRepository'
+import { createPoll, getPoll } from '../repositories/pollRepository'
 import { createChoices, getChoices } from '../repositories/choiceRepository'
 import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
 import { type INewPoll } from '../validators/pollValidators'
@@ -18,7 +18,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
 export const get = async (req: Request, res: Response): Promise<void> => {
   const uuid = req.params.uuid
-  const question = await getPollQuestion(uuid)
+  const question = await getPoll(uuid)
   if (question === null) {
     res.status(404)
     res.send(buildErrorResponse(

@@ -1,4 +1,3 @@
-import console from 'console'
 import connection from '../config/database/database'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'

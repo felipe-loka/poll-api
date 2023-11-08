@@ -3,7 +3,7 @@ import { type Request, type Response } from 'express'
 import { getChoices } from '../repositories/choiceRepository'
 import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
 import { type INewVote } from '../validators/voteValidators'
-import { getPollQuestion } from '../repositories/pollRepository'
+import { getPoll } from '../repositories/pollRepository'
 import { createVote, getVotes } from '../repositories/voteRepository'
 
 function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): boolean {
@@ -14,13 +14,21 @@ function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): 
 export const create = async (req: Request, res: Response): Promise<void> => {
   const body: INewVote = req.body
 
-  const poll = await getPollQuestion(body.pollId)
+  const poll = await getPoll(body.pollId)
   if (poll === null) {
     res.status(404)
     res.send(buildErrorResponse(
       'You can not vote in a poll that does not exist. Verify if the given pool id is correct.'
     ))
     return
+  } else {
+    if (poll.multiChoice && body.choiceId.length > 1) {
+      res.status(404)
+      res.send(buildErrorResponse(
+        'You can only vote in a single option per vote.'
+      ))
+      return
+    }
   }
 
   const availableChoices = await getChoices(body.pollId)
@@ -45,7 +53,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
 export const get = async (req: Request, res: Response): Promise<void> => {
   const uuid = req.params.uuid
-  const poll = await getPollQuestion(uuid)
+  const poll = await getPoll(uuid)
   if (poll === null) {
     res.status(404)
     res.send(buildErrorResponse(

@@ -13,16 +13,24 @@ export const createPoll = async (uuid: string, question: string, multiChoice: bo
   )
 }
 
-export const getPollQuestion = async (uuid: string): Promise<string | null> => {
+interface Poll {
+  question: string
+  multiChoice: boolean
+}
+
+export const getPoll = async (uuid: string): Promise<Poll | null> => {
   const conn = await connection
   const [rows] = await conn.execute(
-    'SELECT question FROM `poll` WHERE poll_id = ?',
+    'SELECT question, multi_choice FROM `poll` WHERE poll_id = ?',
     [uuid]
   )
   const result = JSON.parse(JSON.stringify(rows))
   if (result.length === 0) {
     return null
   }
-  const question = result[0].question
-  return question
+  const poll = {
+    question: result[0].question,
+    multiChoice: Boolean(result[0].multi_choice)
+  }
+  return poll
 }
