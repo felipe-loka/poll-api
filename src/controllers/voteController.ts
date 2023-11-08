@@ -4,7 +4,7 @@ import { getChoices } from '../repositories/choiceRepository'
 import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
 import { type INewVote } from '../validators/voteValidators'
 import { getPollQuestion } from '../repositories/pollRepository'
-import { createVote } from '../repositories/voteRepository'
+import { createVote, getVotes } from '../repositories/voteRepository'
 
 function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): boolean {
   const choicesInPollAsNumber = choicesInPoll.map((choice: string) => Number(choice))
@@ -36,9 +36,32 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     }
   }
 
-  await createVote(body.pollId, body.choiceId)
+  await createVote(body.choiceId)
   res.send(buildSuccessResponse(
     'Vote was created!',
     {}
   ))
+}
+
+export const get = async (req: Request, res: Response): Promise<void> => {
+  const uuid = req.params.uuid
+  const poll = await getPollQuestion(uuid)
+  if (poll === null) {
+    res.status(404)
+    res.send(buildErrorResponse(
+      'The given poll id does not exist.'
+    ))
+    return
+  }
+  const votes = await getVotes(uuid)
+  if (votes !== null) {
+    res.send(buildSuccessResponse(
+      'Votes retrieved successfully',
+      votes
+    ))
+  } else {
+    res.send(buildErrorResponse(
+      'Votes were not able to be retrieved. Try again.'
+    ))
+  }
 }
