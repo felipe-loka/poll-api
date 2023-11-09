@@ -1,3 +1,4 @@
+import { MAX_NUMBER_OF_CHOICES } from '../src/config/environments'
 import app from './common'
 
 describe('GET /poll', () => {
@@ -87,6 +88,20 @@ describe('POST /poll', () => {
           message: 'There must be at least two choices in the poll!'
         }
       ]
+    })
+  })
+
+  test('Create an invalid poll - too many choices', async () => {
+    const response = await app.post('/poll').send({
+      question: 'How many choices are allowed to be created?',
+      multiChoice: false,
+      choice: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    })
+
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toStrictEqual({
+      message: `Max number of choices in a poll is ${MAX_NUMBER_OF_CHOICES}`,
+      status: 'failed'
     })
   })
 
