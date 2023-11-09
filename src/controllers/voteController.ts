@@ -22,7 +22,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     ))
     return
   } else {
-    if (poll.multiChoice && body.choiceId.length > 1) {
+    if (!poll.multiChoice && body.choiceId.length > 1) {
       res.status(404)
       res.send(buildErrorResponse(
         'You can only vote in a single option per vote.'

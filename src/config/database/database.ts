@@ -1,5 +1,8 @@
 import mysql from 'mysql2/promise'
 import { DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_PORT } from '../environments'
+import iconvLite from 'iconv-lite'
+
+iconvLite.encodingExists('foo')
 
 const conn = mysql.createConnection({
   host: DB_HOST,
