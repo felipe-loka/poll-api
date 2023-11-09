@@ -56,7 +56,7 @@ jobs:
         run: |
           docker build -t poll-api .
           pnpm infra:up
-          docker container run -it -p 3000:3000 \
+          docker container run -d -p 3000:3000 \
             --rm --name poll \
             -e DB_USERNAME='user' -e DB_PASSWORD='password123' \
             -e DB_NAME='api' -e DB_HOST='mysql' \
