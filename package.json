@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "pnpm tsc",
     "test": " NODE_ENV=test pnpm exec jest --runInBand --forceExit",
     "infra:up": "docker compose up -d && sleep 5 && pnpm exec dbmate --migrations-dir ./src/config/database/migrations up && sleep 2 && pnpm exec dbmate --migrations-dir ./src/config/database/seeds up",
     "infra:down": "docker compose down",
