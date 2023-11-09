@@ -1,5 +1,4 @@
 import { type Request, type Response } from 'express'
-// import { createVote } from '../repositories/voteRepository'
 import { getChoices } from '../repositories/choiceRepository'
 import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
 import { type INewVote } from '../validators/voteValidators'
