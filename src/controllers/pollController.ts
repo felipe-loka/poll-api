@@ -20,8 +20,7 @@ export const get = async (req: Request, res: Response): Promise<void> => {
   const uuid = req.params.uuid
   const question = await getPoll(uuid)
   if (question === null) {
-    res.status(404)
-    res.send(buildErrorResponse(
+    res.status(404).send(buildErrorResponse(
       'Poll does not exist'
     ))
   } else {

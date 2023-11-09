@@ -1,6 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import { z } from 'zod'
-import { buildErrorResponse } from '../utils/response'
 
 const validate =
   (schema: z.AnyZodObject | z.ZodOptional<z.AnyZodObject>) =>
