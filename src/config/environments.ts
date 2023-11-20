@@ -13,3 +13,6 @@ export const DB_PORT = process.env.DB_PORT ?? '3306'
 
 // BUSINESS RULES
 export const MAX_NUMBER_OF_CHOICES = process.env.MAX_NUMBER_OF_CHOICES === undefined ? 5 : Number(process.env.MAX_NUMBER_OF_CHOICES)
+
+// OBSERVABILITY
+export const LOGGER_LEVEL = process.env.LOGGER_LEVEL ?? 'info'

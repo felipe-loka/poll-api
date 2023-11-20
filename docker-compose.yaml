@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   mysql:
@@ -16,6 +16,17 @@ services:
     restart: always
     command: --default-authentication-plugin=mysql_native_password
 
+  fluent-bit:
+    image: fluent/fluent-bit:2.2.0
+    container_name: fluent-bit
+    networks:
+      - pollNetwork
+    volumes:
+      - ./config/fluent-bit.yaml:/fluent-bit/etc/fluent-bit.yaml
+    ports:
+      - "24224:24224/tcp"
+      - "24224:24224/udp"
+    command: -c /fluent-bit/etc/fluent-bit.yaml
 
 networks:
   pollNetwork:

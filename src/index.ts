@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import router from './routes'
 import { PORT, NODE_ENV } from './config/environments'
+import logger from './config/logger'
 
 const app = express()
 
@@ -15,11 +16,11 @@ app.use(router)
 
 if (NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log('Application listening on port 3000')
+    logger.info('Application listening on port 3000')
   })
 } else {
   app.listen(0, () => {
-    console.log('Starting application to run tests...')
+    logger.info('Starting application to run tests...')
   })
 }
 

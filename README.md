@@ -42,19 +42,20 @@ pnpm install
 You can check all the environment variables in the `src/config/environments.ts` file. Here is an example of a valid `.env` file:
 
 ```shell
-PORT="3000"
-NODE_ENV="development"
-DB_USERNAME="user"
-DB_PASSWORD="password123"
-DB_NAME="api"
-DB_HOST="localhost"
-DB_PORT="3306"
-DATABASE_URL="mysql://user:password123@localhost:3306/api"
+PORT=3000
+NODE_ENV=development
+DB_USERNAME=user
+DB_PASSWORD=password123
+DB_NAME=api
+DB_HOST=localhost
+DB_PORT=3306
+DATABASE_URL=mysql://user:password123@localhost:3306/api
+LOGGER_FILENAME=poll.log
 ```
 
 5. Setup database infrastructure
 
-In order to setup the infrastructure the following steps are executed: MySQL Docker container is created, migrations are execute, database is seeded. In order to simplify all these steps a script was created for you, so you can simply run:
+In order to setup the infrastructure the following steps are executed: MySQL Docker container is created, migrations are execute, database is seeded, observability stack is created. In order to simplify all these steps a script was created for you, so you can simply run:
 
 ```
 pnpm infra:up
@@ -104,10 +105,18 @@ This project fullfills the following requirements:
 - User should be able to vote in a given poll
 - User should be able to see the vote results of a given poll after voting
 
+## Observability
+
+It's beeing implemented a whole observability stack to monitor the application correctly.
+
+- **Logs**: are being collected by [FluentBit](https://fluentbit.io/) and forwarded to Loki.
+
+In order to fully test this locally you will need to build the local application using Docker. To make it easier a script was created and added in `package.json`, so you can simply run `pnpm container`
+
 ## Next Steps
 
 The following requirements should be implemented in next versions:
 
-- Add observability to the application: logs, metrics, traces
+- Add observability to the application: metrics, traces
 - Add cache layer (e.g. Redis) to minimize latency time
 - Validate the need of using a pool of connections to manage the connection to the database

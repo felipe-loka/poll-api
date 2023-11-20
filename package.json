@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm tsc",
+    "build": "tsc",
     "test": " NODE_ENV=test pnpm exec jest --runInBand --forceExit",
     "infra:up": "docker compose up -d && sleep 10 && pnpm exec dbmate --migrations-dir ./src/config/database/migrations up && sleep 2 && pnpm exec dbmate --migrations-dir ./src/config/database/seeds up",
     "infra:down": "docker compose down",
@@ -12,7 +12,9 @@
     "db:migrate:down": "pnpm exec dbmate --migrations-dir ./src/config/database/migrations down",
     "db:seed": "pnpm exec dbmate --migrations-dir ./src/config/database/seeds up",
     "start": "ts-node src/index.ts",
-    "start:dev": "nodemon src/index.ts"
+    "start:dev": "nodemon src/index.ts",
+    "container:up": "docker build -t poll-api . && docker container run -d -p 3000:3000 --name poll --env-file .env -e DB_HOST='mysql' --network pollNetwork --log-driver fluentd --log-opt fluentd-address=127.0.0.1:24224 --log-opt fluentd-async-connect=true --log-opt tag=poll-api poll-api",
+    "container:down": "docker rm -f poll"
   },
   "keywords": [],
   "author": "",
@@ -52,6 +54,7 @@
     "mysql2": "^3.6.3",
     "supertest": "^6.3.3",
     "uuid": "^9.0.1",
+    "winston": "^3.11.0",
     "zod": "^3.22.4"
   }
 }
