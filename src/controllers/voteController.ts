@@ -4,6 +4,7 @@ import { buildErrorResponse, buildSuccessResponse } from '../utils/response'
 import { type INewVote } from '../validators/voteValidators'
 import { getPoll } from '../repositories/pollRepository'
 import { createVote, getVotes } from '../repositories/voteRepository'
+import logger from '../config/logger'
 
 function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): boolean {
   const choicesInPollAsNumber = choicesInPoll.map((choice: string) => Number(choice))
@@ -11,6 +12,8 @@ function areAllChoicesPresent(choicesInPoll: string[], choicesInput: number[]): 
 }
 
 export const create = async (req: Request, res: Response): Promise<void> => {
+  logger.info('Creating a new vote')
+
   const body: INewVote = req.body
 
   const poll = await getPoll(body.pollId)
@@ -48,6 +51,8 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const get = async (req: Request, res: Response): Promise<void> => {
+  logger.info('Getting a votes')
+
   const uuid = req.params.uuid
   const poll = await getPoll(uuid)
   if (poll === null) {
