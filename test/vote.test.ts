@@ -23,7 +23,7 @@ describe('POST /vote', () => {
 
     expect(response.statusCode).toBe(404)
     expect(response.body).toStrictEqual({
-      message: 'You can not vote in a poll that does not exist. Verify if the given pool id is correct.',
+      message: 'You can not vote in a poll that does not exist. Verify if the given poll id is correct.',
       status: 'failed'
     })
   })
