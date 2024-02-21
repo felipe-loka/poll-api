@@ -1,7 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,macos
 
-### macOS ###
+##############################
+###### macOS
+##############################
 # General
 .DS_Store
 .AppleDouble
@@ -34,7 +36,9 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-### Node ###
+##############################
+###### nodeJS
+##############################
 # Logs
 logs
 *.log
@@ -165,7 +169,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-### Node Patch ###
 # Serverless Webpack directories
 .webpack/
 
@@ -174,7 +177,10 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-### VisualStudioCode ###
+##############################
+###### vsCode
+##############################
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -193,4 +199,8 @@ dist
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,macos
+##############################
+###### Local
+##############################
+tempo-data
+.data

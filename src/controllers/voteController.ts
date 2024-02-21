@@ -19,7 +19,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
   const poll = await getPoll(body.pollId)
   if (poll === null) {
     res.status(404).send(buildErrorResponse(
-      'You can not vote in a poll that does not exist. Verify if the given pool id is correct.'
+      'You can not vote in a poll that does not exist. Verify if the given poll id is correct.'
     ))
     return
   } else {

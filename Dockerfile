@@ -15,5 +15,6 @@ COPY package.json ./
 RUN npm install pnpm -g
 RUN pnpm install --prod
 COPY --from=build /app/dist ./
+COPY src/config/database/migrations ./src/config/database/migrations
 EXPOSE 3000
 CMD ["node", "./src/index.js"]

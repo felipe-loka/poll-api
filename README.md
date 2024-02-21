@@ -1,4 +1,4 @@
-# Poll API
+# poll API
 
 The code in this repository corresponds to an API responsible for managing a basic poll system.
 
@@ -119,4 +119,4 @@ The following requirements should be implemented in next versions:
 
 - Add observability to the application: metrics, traces
 - Add cache layer (e.g. Redis) to minimize latency time
-- Validate the need of using a pool of connections to manage the connection to the database
+- Validate the need of using a poll of connections to manage the connection to the database
