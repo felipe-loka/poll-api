@@ -1,3 +1,4 @@
+# https://opentelemetry.io/docs/collector/configuration/#receivers
 receivers:
   otlp:
     protocols:
@@ -6,10 +7,12 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4317
 
+# https://opentelemetry.io/docs/collector/configuration/#exporters
 exporters:
   otlphttp:
     endpoint: http://tempo:4318
 
+# https://opentelemetry.io/docs/collector/configuration/#exporters
 service:
   pipelines:
     traces:
