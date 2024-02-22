@@ -76,6 +76,28 @@ services:
       timeout: 5s
       retries: 5
 
+  otel-collector:
+    image: otel/opentelemetry-collector:0.95.0
+    container_name: otel-collector
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    networks:
+      - pollNetwork
+    volumes:
+      - ./config/otel-collector.yaml:/etc/otel-collector.yaml
+
+  tempo:
+    image: grafana/tempo:2.3.1
+    container_name: tempo
+    networks:
+      - pollNetwork
+    ports:
+      - 3200:3200
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+    volumes:
+      - ./config/tempo.yaml:/etc/tempo/config.yaml
+    command: -config.file=/etc/tempo/config.yaml
+
 networks:
   pollNetwork:
     name: pollNetwork
