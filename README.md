@@ -21,9 +21,9 @@ The architecture of this project is simple: an API that uses MySQL as the databa
 
 ## Getting Started
 
-This project uses [pnpm](https://pnpm.io/) as the package manager, so this must be installed in your machine in order to start contributing to this project.
+This project uses [pnpm](https://pnpm.io/) as the package manager, so this must be installed in your machine to start contributing to this project.
 
-Several helpful script are present in the `package.json` file, such as: create the infrastructure needed (MySQL database), run tests, run locally the code, build the code...
+Several helpful scripts are present in the `package.json` file, such as: creating the infrastructure needed (MySQL database), running tests, running the code, build the code...
 
 A step-by-step guide on how to run this project is the following:
 
@@ -50,25 +50,42 @@ DB_NAME=api
 DB_HOST=localhost
 DB_PORT=3306
 DATABASE_URL=mysql://user:password123@localhost:3306/api
-LOGGER_FILENAME=poll.log
+OTEL_COLLECTOR_URL=http://otel-collector:4318
+```
+
+Besides these environment variables (related to the application) some others need to be set (OpenTelemetry):
+
+```shell
+OTEL_SERVICE_NAME=poll-api
 ```
 
 5. Setup database infrastructure
-
-In order to setup the infrastructure the following steps are executed: MySQL Docker container is created, migrations are execute, database is seeded, observability stack is created. In order to simplify all these steps a script was created for you, so you can simply run:
+To set up the infrastructure the following steps are executed: MySQL Docker container is created, migrations are executed, the database is seeded, and the observability stack is created. To simplify all these steps a script was created for you, so you can simply run:
 
 ```
 pnpm infra:up
 ```
 
-We are using [dbmate](https://github.com/amacneil/dbmate), an agnostic tool used for database migration. For MySQL databases it expect the [DATABASE_URL](https://github.com/amacneil/dbmate#mysql) environment variable to be set with the string URL used to connect to the database, that is why we are creating this environment variable in the `.env` file given above.
+We are using [dbmate](https://github.com/amacneil/dbmate), an agnostic tool used for database migration. For MySQL databases it expects the [DATABASE_URL](https://github.com/amacneil/dbmate#mysql)(https://github.com/amacneil/dbmate#mysql) environment variable to be set with the string URL used to connect to the database, that is why we are creating this environment variable in the `.env` file given above.
 
 6. Run the code
 
-You can run the code in a watch mode, which means the API will auto-refresh with new changes everytime you modify and save any files, this helps you increase your productivity. You can run the API with the following script:
+You can run the code in a watch mode, which means the API will auto-refresh with new changes every time you modify and save any files, this helps you increase your productivity. You can run the API with the following script:
 
 ```
 pnpm start:dev
+```
+
+If you want to use the observability stack (log, traces, metrics) you can't simply run locally, you will need to run the container version in the same network as all the other components (MySQL, Loki, Grafana, Tempo, Prometheus). So instead of running `pnpm start:dev` you can run the following:
+
+```
+pnpm container:up
+```
+
+Notice that it won't auto-refresh, so if you want to test your change you will need to:
+
+```
+pnpm container:down
 ```
 
 7. Run tests
@@ -85,6 +102,7 @@ You can destroy all the created infrastructure with the following command:
 
 ```
 pnpm infra:down
+pnpm container:down
 ```
 
 ## Database Modeling
@@ -97,26 +115,26 @@ This project fullfills the following requirements:
 
 ### Poll Creation
 
-- User should be able to create a poll and get a link to share with people
-- User can choose if the poll allows more than one choice in the same vote (multi choice poll)
+- Users should be able to create a poll and get a link to share with people
+- Users can choose if the poll allows more than one choice in the same vote (multi choice poll)
 
 ### Poll Voting System
-
-- User should be able to vote in a given poll
-- User should be able to see the vote results of a given poll after voting
+- Users should be able to vote in a given poll
+- Users should be able to see the vote results of a given poll after voting
 
 ## Observability
 
-It's beeing implemented a whole observability stack to monitor the application correctly.
+It's being implemented a whole observability stack to monitor the application correctly.
 
-- **Logs**: are being collected by [FluentBit](https://fluentbit.io/) and forwarded to Loki.
+- **Logs**: are being collected by [FluentBit](https://fluentbit.io/) and forwarded to [Loki](https://grafana.com/docs/loki/latest/).
+- **Traces**: Traces are automatically generated (instrumentation) using OpenTelemetry and are collected by [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) and forwarded to [Tempo](https://grafana.com/oss/tempo/) using [OTLP protocol](https://opentelemetry.io/docs/specs/otel/protocol/) via HTTP requests
 
-In order to fully test this locally you will need to build the local application using Docker. To make it easier a script was created and added in `package.json`, so you can simply run `pnpm container`
+To fully test this locally you will need to build the local application using Docker. To make it easier a script was created and added in `package.json`, so you can simply run `pnpm container`
 
 ## Next Steps
 
-The following requirements should be implemented in next versions:
+The following requirements should be implemented in the next versions:
 
-- Add observability to the application: metrics, traces
+- Add observability to the application: metrics
 - Add cache layer (e.g. Redis) to minimize latency time
-- Validate the need of using a poll of connections to manage the connection to the database
+- Validate the need to use a poll of connections to manage the connection to the database
