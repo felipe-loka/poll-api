@@ -11,12 +11,7 @@ receivers:
 exporters:
   otlphttp:
     endpoint: http://tempo:4318
-  # prometheusremotewrite:
-  #   endpoint: http://prometheus:9090/api/v1/push
-  #   tls:
-  #     insecure: true
-  # debug:
-  #   verbosity: detailed
+
 
 # https://opentelemetry.io/docs/collector/configuration/#pipelines
 service:
@@ -24,6 +19,3 @@ service:
     traces:
       receivers: [otlp]
       exporters: [otlphttp]
-    # metrics:
-    #   receivers: [otlp]
-    #   exporters: [debug, prometheusremotewrite]

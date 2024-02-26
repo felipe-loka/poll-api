@@ -13,7 +13,7 @@
     "db:seed": "pnpm exec dbmate --migrations-dir ./src/config/database/seeds up",
     "start": "npx ts-node src/index.ts",
     "start:dev": "npx nodemon --require @opentelemetry/auto-instrumentations-node/register src/index.ts",
-    "container:up": "docker build -t poll-api . && docker container run -d -p 3000:3000 -p 9464:9464 --name poll --env-file .env -e DB_HOST='mysql' --network pollNetwork --log-driver fluentd --log-opt fluentd-address=127.0.0.1:24224 --log-opt fluentd-async-connect=true --log-opt tag=poll-api poll-api",
+    "container:up": "docker build -t poll-api . && docker container run -d -p 3000:3000 --name poll --env-file .env -e DB_HOST='mysql' --network pollNetwork --log-driver fluentd --log-opt fluentd-address=127.0.0.1:24224 --log-opt fluentd-async-connect=true --log-opt tag=poll-api poll-api",
     "container:down": "docker rm -f poll"
   },
   "keywords": [],
