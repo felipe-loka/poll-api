@@ -5,8 +5,16 @@ import cors from 'cors'
 import router from './routes'
 import { PORT, NODE_ENV } from './config/environments'
 import logger from './config/logger'
+import { collectDefaultMetrics, Counter, register } from 'prom-client'
 
 const app = express()
+
+collectDefaultMetrics()
+
+app.get('/metrics', (req, res) => {
+  res.setHeader('Content-Type', register.contentType)
+  register.metrics().then(data => res.send(data))
+})
 
 app.use(compression())
 app.use(express.json())

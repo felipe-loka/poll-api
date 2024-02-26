@@ -11,18 +11,9 @@ dependencies:
   '@opentelemetry/auto-instrumentations-node':
     specifier: ^0.41.1
     version: 0.41.1(@opentelemetry/api@1.7.0)
-  '@opentelemetry/exporter-trace-otlp-proto':
-    specifier: ^0.48.0
-    version: 0.48.0(@opentelemetry/api@1.7.0)
-  '@opentelemetry/sdk-metrics':
-    specifier: ^1.21.0
-    version: 1.21.0(@opentelemetry/api@1.7.0)
   '@opentelemetry/sdk-node':
     specifier: ^0.48.0
     version: 0.48.0(@opentelemetry/api@1.7.0)
-  '@opentelemetry/sdk-trace-node':
-    specifier: ^1.21.0
-    version: 1.21.0(@opentelemetry/api@1.7.0)
   body-parser:
     specifier: ^1.20.2
     version: 1.20.2
@@ -56,6 +47,12 @@ dependencies:
   npx:
     specifier: ^10.2.2
     version: 10.2.2
+  prom-client:
+    specifier: ^15.1.0
+    version: 15.1.0
+  register:
+    specifier: link:@opentelemetry/auto-instrumentations-node/register
+    version: link:@opentelemetry/auto-instrumentations-node/register
   supertest:
     specifier: ^6.3.3
     version: 6.3.3
@@ -2630,6 +2627,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /bintrees@1.0.2:
+    resolution: {integrity: sha512-VOMgTMwjAaUG580SXn3LacVgjurrbMme7ZZNYGSSV7mmtY6QQRh0Eg3pwIcntQ77DErK1L0NxkbetjcoXzVwKw==}
+    dev: false
+
   /body-parser@1.20.1:
     resolution: {integrity: sha512-jWi7abTbYwajOytWCQc37VulmWiRae5RyTpaCyDcS5/lMdtwSz5lOpDE67srw/HYe35f1z3fDQw+3txg7gNtWw==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -5151,6 +5152,14 @@ packages:
       ansi-styles: 5.2.0
       react-is: 18.2.0
 
+  /prom-client@15.1.0:
+    resolution: {integrity: sha512-cCD7jLTqyPdjEPBo/Xk4Iu8jxjuZgZJ3e/oET3L+ZwOuap/7Cw3dH/TJSsZKs1TQLZ2IHpIlRAKw82ef06kmMw==}
+    engines: {node: ^16 || ^18 || >=20}
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      tdigest: 0.1.2
+    dev: false
+
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
     engines: {node: '>= 6'}
@@ -5625,6 +5634,12 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /tdigest@0.1.2:
+    resolution: {integrity: sha512-+G0LLgjjo9BZX2MfdvPfH+MKLCrxlXSYec5DaPYP1fe6Iyhf0/fSmJ0bFiZ1F8BT6cGXl2LpltQptzjXKWEkKA==}
+    dependencies:
+      bintrees: 1.0.2
+    dev: false
 
   /test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}

@@ -17,4 +17,4 @@ RUN pnpm install --prod
 COPY --from=build /app/dist ./
 COPY src/config/database/migrations ./src/config/database/migrations
 EXPOSE 3000
-CMD ["node", "--require", "./src/config/instrumentation.js", "./src/index.js"]
+CMD ["node", "--require", "@opentelemetry/auto-instrumentations-node/register", "./src/index.js"]

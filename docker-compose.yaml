@@ -98,6 +98,17 @@ services:
       - ./config/tempo.yaml:/etc/tempo/config.yaml
     command: -config.file=/etc/tempo/config.yaml
 
+  prometheus:
+    image: prom/prometheus:v2.50.0
+    container_name: prometheus
+    networks:
+      - pollNetwork
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus.yaml:/etc/prometheus/config.yaml
+    command: --config.file=/etc/prometheus/config.yaml
+
 networks:
   pollNetwork:
     name: pollNetwork

@@ -50,13 +50,18 @@ DB_NAME=api
 DB_HOST=localhost
 DB_PORT=3306
 DATABASE_URL=mysql://user:password123@localhost:3306/api
-OTEL_COLLECTOR_URL=http://otel-collector:4318
+OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 ```
 
 Besides these environment variables (related to the application) some others need to be set (OpenTelemetry):
 
 ```shell
 OTEL_SERVICE_NAME=poll-api
+OTEL_TRACES_EXPORTER=otlp
+OTEL_METRICS_EXPORTER=noce
+OTEL_LOGS_EXPORTER=none
+OTEL_NODE_RESOURCE_DETECTORS=env,host,os
+OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 ```
 
 5. Setup database infrastructure
