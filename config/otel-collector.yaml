@@ -12,7 +12,8 @@ exporters:
   otlphttp:
     endpoint: http://tempo:4318
 
-# https://opentelemetry.io/docs/collector/configuration/#exporters
+
+# https://opentelemetry.io/docs/collector/configuration/#pipelines
 service:
   pipelines:
     traces:

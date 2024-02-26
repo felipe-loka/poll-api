@@ -16,4 +16,3 @@ export const MAX_NUMBER_OF_CHOICES = process.env.MAX_NUMBER_OF_CHOICES === undef
 
 // OBSERVABILITY
 export const LOGGER_LEVEL = process.env.LOGGER_LEVEL ?? 'info'
-export const OTEL_COLLECTOR_URL = process.env.OTEL_COLLECTOR_URL
